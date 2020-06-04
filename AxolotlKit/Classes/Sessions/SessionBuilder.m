@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2019 Open Whisper Systems. All rights reserved.
+//  Copyright (c) 2018 Open Whisper Systems. All rights reserved.
 //
 
 #import "SessionBuilder.h"
@@ -208,19 +208,11 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
         return -1;
     }
 
-    SignedPreKeyRecord *_Nullable signedPreKeyRecord = [self.signedPreKeyStore loadSignedPreKey:message.signedPrekeyId];
-    if (signedPreKeyRecord == nil) {
-        OWSRaiseException(InvalidKeyIdException, @"No signed pre key found matching key id");
-    }
-    ECKeyPair *ourSignedPrekey = signedPreKeyRecord.keyPair;
+    ECKeyPair *ourSignedPrekey = [self.signedPreKeyStore throws_loadSignedPrekey:message.signedPrekeyId].keyPair;
 
     ECKeyPair *_Nullable ourOneTimePreKey;
     if (message.prekeyID >= 0) {
-        PreKeyRecord *_Nullable preKey = [self.prekeyStore loadPreKey:message.prekeyID];
-        if (preKey == nil) {
-            OWSRaiseException(InvalidKeyIdException, @"No pre key found matching key id");
-        }
-        ourOneTimePreKey = preKey.keyPair;
+        ourOneTimePreKey = [self.prekeyStore throws_loadPreKey:message.prekeyID].keyPair;
     } else {
         DDLogWarn(@"%@ Processing PreKey message which had no one-time prekey.", self.tag);
     }
