@@ -2,7 +2,7 @@
 //  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 #import <Foundation/Foundation.h>
 
 

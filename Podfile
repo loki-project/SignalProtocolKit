@@ -4,11 +4,10 @@ use_frameworks!
 
 target 'AxolotlKit' do
   pod 'AxolotlKit', path: '.'
-  pod 'Curve25519Kit', git: 'https://github.com/WhisperSystems/25519.git', branch: 'mkirk/framework-friendly'
-  pod 'HKDFKit', git: 'https://github.com/WhisperSystems/HKDFKit.git'
+  pod 'SessionCurve25519Kit', git: 'https://github.com/loki-project/session-ios-curve-25519-kit.git', '~> 2.1.1'
+  pod 'SessionHKDFKit', git: 'https://github.com/nielsandriesse/session-ios-hkdf-kit.git', '~> 0.0.4'
 
   target 'AxolotlKitTests' do
     inherit! :search_paths
   end
 end
-

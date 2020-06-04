@@ -3,7 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 
 @protocol AxolotlParameters <NSObject>
 

@@ -5,7 +5,7 @@
 #import "ChainKey.h"
 #import "TSDerivedSecrets.h"
 #import <CommonCrypto/CommonCrypto.h>
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -8,9 +8,9 @@
 #import "ChainKey.h"
 #import "RootKey.h"
 #import "SessionState.h"
-#import <Curve25519Kit/Curve25519.h>
-#import <HKDFKit/HKDFKit.h>
-#import <SignalCoreKit/SCKExceptionWrapper.h>
+#import <SessionCurve25519Kit/Curve25519.h>
+#import <SessionHKDFKit/HKDFKit.h>
+#import <SessionCoreKit/SCKExceptionWrapper.h>
 
 @interface DHEResult : NSObject
 
@@ -33,7 +33,7 @@
     const char *HKDFDefaultSalt[4] = {0};
     NSData *salt                   = [NSData dataWithBytes:HKDFDefaultSalt length:sizeof(HKDFDefaultSalt)];
     NSData *info                   = [@"WhisperText" dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *derivedMaterial = [HKDFKit throws_deriveKey:data info:info salt:salt outputSize:64];
+    NSData *derivedMaterial = [HKDFKit deriveKey:data info:info salt:salt outputSize:64];
     OWSAssert(derivedMaterial.length == 64);
     _rootKey                       = [[RootKey alloc] initWithData:[derivedMaterial subdataWithRange:NSMakeRange(0, 32)]];
     _chainKey                      = [derivedMaterial subdataWithRange:NSMakeRange(32, 32)];
@@ -133,9 +133,9 @@
     OWSAssert(parameters);
 
     NSMutableData *masterKey = [NSMutableData data];
-    
+
     [masterKey appendData:[self discontinuityBytes]];
-    
+
     if ([parameters isKindOfClass:[AliceAxolotlParameters class]]) {
         AliceAxolotlParameters *params = (AliceAxolotlParameters*)parameters;
 
@@ -176,7 +176,7 @@
 + (NSData*)discontinuityBytes{
     NSMutableData *discontinuity = [NSMutableData data];
     int8_t byte = 0xFF;
-    
+
     for (int i = 0; i < 32; i++) {
         [discontinuity appendBytes:&byte length:sizeof(int8_t)];
     }

@@ -2,13 +2,13 @@
 //  Copyright (c) 2018 Open Whisper Systems. All rights reserved.
 //
 
-#import <AxolotlKit/AxolotlExceptions.h>
-#import <AxolotlKit/NSData+keyVersionByte.h>
-#import <AxolotlKit/SPKMockProtocolStore.h>
-#import <AxolotlKit/SessionBuilder.h>
-#import <AxolotlKit/SessionCipher.h>
-#import <Curve25519Kit/Ed25519.h>
-#import <SignalCoreKit/NSData+OWS.h>
+#import <SessionAxolotlKit/AxolotlExceptions.h>
+#import <SessionAxolotlKit/NSData+keyVersionByte.h>
+#import <SessionAxolotlKit/SPKMockProtocolStore.h>
+#import <SessionAxolotlKit/SessionBuilder.h>
+#import <SessionAxolotlKit/SessionCipher.h>
+#import <SessionCurve25519Kit/Ed25519.h>
+#import <SessionCoreKit/NSData+OWS.h>
 #import <XCTest/XCTest.h>
 
 @interface PreKeyWhisperMessage ()
@@ -43,13 +43,13 @@
  */
 
 - (void)testBasicPreKey {
-    
+
     NSString *BOB_RECIPIENT_ID   = @"+3828923892";
     NSString *ALICE_RECIPIENT_ID = @"alice@gmail.com";
 
     SPKMockProtocolStore *aliceStore = [SPKMockProtocolStore new];
     SessionBuilder       *aliceSessionBuilder = [[SessionBuilder alloc] initWithAxolotlStore:aliceStore recipientId:BOB_RECIPIENT_ID deviceId:1];
-    
+
     SPKMockProtocolStore *bobStore      = [SPKMockProtocolStore new];
     ECKeyPair *bobPreKeyPair            = [Curve25519 generateKeyPair];
     ECKeyPair *bobSignedPreKeyPair      = [Curve25519 generateKeyPair];
@@ -69,7 +69,7 @@
 
     XCTAssert([aliceStore containsSession:BOB_RECIPIENT_ID deviceId:1 protocolContext:nil]);
     XCTAssert([aliceStore loadSession:BOB_RECIPIENT_ID deviceId:1 protocolContext:nil].sessionState.version == 3);
-        
+
     NSString *originalMessage = @"Freedom is the right to tell people what they do not want to hear.";
     SessionCipher *aliceSessionCipher = [[SessionCipher alloc] initWithAxolotlStore:aliceStore recipientId:BOB_RECIPIENT_ID deviceId:1];
 
@@ -78,11 +78,11 @@
                                   protocolContext:nil];
 
     XCTAssert([outgoingMessage isKindOfClass:[PreKeyWhisperMessage class]], @"Message should be PreKey type");
-    
+
     PreKeyWhisperMessage *incomingMessage = (PreKeyWhisperMessage*)outgoingMessage;
     [bobStore storePreKey:31337 preKeyRecord:[[PreKeyRecord alloc] initWithId:bobPreKey.preKeyId keyPair:bobPreKeyPair]];
     [bobStore storeSignedPreKey:22 signedPreKeyRecord:[[SignedPreKeyRecord alloc] initWithId:22 keyPair:bobSignedPreKeyPair signature:bobSignedPreKeySignature generatedAt:[NSDate date]]];
-    
+
     SessionCipher *bobSessionCipher = [[SessionCipher alloc] initWithAxolotlStore:bobStore recipientId:ALICE_RECIPIENT_ID deviceId:1];
     [bobSessionCipher throws_decrypt:incomingMessage protocolContext:nil];
 
@@ -96,12 +96,12 @@
  */
 
 - (void)testBasicPreKeyMITM {
-    
+
     NSString *BOB_RECIPIENT_ID   = @"+3828923892";
-    
+
     SPKMockProtocolStore *aliceStore = [SPKMockProtocolStore new];
     SessionBuilder       *aliceSessionBuilder = [[SessionBuilder alloc] initWithAxolotlStore:aliceStore recipientId:BOB_RECIPIENT_ID deviceId:1];
-    
+
     SPKMockProtocolStore *bobStore      = [SPKMockProtocolStore new];
     ECKeyPair *bobIdentityKeyPair1 = [Curve25519 generateKeyPair];
     ECKeyPair *bobPreKeyPair1 = [Curve25519 generateKeyPair];

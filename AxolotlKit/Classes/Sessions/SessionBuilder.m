@@ -13,10 +13,10 @@
 #import "PrekeyBundle.h"
 #import "RatchetingSession.h"
 #import "SessionState.h"
-#import <Curve25519Kit/Curve25519.h>
-#import <Curve25519Kit/Ed25519.h>
-#import <SignalCoreKit/NSData+OWS.h>
-#import <SignalCoreKit/SCKExceptionWrapper.h>
+#import <SessionCurve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Ed25519.h>
+#import <SessionCoreKit/NSData+OWS.h>
+#import <SessionCoreKit/SCKExceptionWrapper.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -66,7 +66,7 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
     OWSAssert(recipientId);
 
     self = [super init];
-    
+
     if (self) {
         _sessionStore      = sessionStore;
         _prekeyStore       = preKeyStore;
@@ -75,7 +75,7 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
         _recipientId       = recipientId;
         _deviceId          = deviceId;
     }
-    
+
     return self;
 }
 
@@ -175,9 +175,9 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
                                   protocolContext:protocolContext]) {
         @throw [NSException exceptionWithName:UntrustedIdentityKeyException reason:@"There is a previously known identity key." userInfo:@{}];
     }
-    
+
     int unSignedPrekeyId = -1;
-    
+
     switch (messageVersion) {
         case 3:
             unSignedPrekeyId =

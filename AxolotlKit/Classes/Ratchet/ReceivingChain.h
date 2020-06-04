@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Chain.h"
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 
 @interface ReceivingChain : NSObject <Chain, NSSecureCoding>
 

@@ -3,8 +3,8 @@
 //
 
 #import "TSDerivedSecrets.h"
-#import <Curve25519Kit/Curve25519.h>
-#import <HKDFKit/HKDFKit.h>
+#import <SessionCurve25519Kit/Curve25519.h>
+#import <SessionHKDFKit/HKDFKit.h>
 
 @implementation TSDerivedSecrets
 
@@ -20,9 +20,9 @@
         const char *HKDFDefaultSalt[4] = {0};
         salt                           = [NSData dataWithBytes:HKDFDefaultSalt length:sizeof(HKDFDefaultSalt)];
     }
-    
+
     @try {
-        NSData *derivedMaterial = [HKDFKit throws_deriveKey:masterKey info:info salt:salt outputSize:96];
+        NSData *derivedMaterial = [HKDFKit deriveKey:masterKey info:info salt:salt outputSize:96];
         secrets.cipherKey       = [derivedMaterial subdataWithRange:NSMakeRange(0, 32)];
         secrets.macKey          = [derivedMaterial subdataWithRange:NSMakeRange(32, 32)];
         secrets.iv              = [derivedMaterial subdataWithRange:NSMakeRange(64, 16)];

@@ -4,9 +4,9 @@
 
 #import <XCTest/XCTest.h>
 
-#import <AxolotlKit/PreKeyBundle.h>
-#import <AxolotlKit/NSData+keyVersionByte.h>
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionAxolotlKit/PreKeyBundle.h>
+#import <SessionAxolotlKit/NSData+keyVersionByte.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 
 @interface PreKeyBundleTests : XCTestCase
 
@@ -33,23 +33,23 @@
                                                          signedPreKeyId:4
                                                   signedPreKeySignature:[Curve25519 generateKeyPair].publicKey
                                                             identityKey:[Curve25519 generateKeyPair].publicKey.prependKeyType];
-    
+
 
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:bundle];
-    
+
     PreKeyBundle *bundle2 = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
+
     XCTAssertEqual(bundle.registrationId, bundle2.registrationId);
     XCTAssertEqual(bundle.deviceId, bundle2.deviceId);
     XCTAssertEqual(bundle.preKeyId, bundle2.preKeyId);
     XCTAssertEqual(bundle.signedPreKeyId, bundle2.signedPreKeyId);
-   
-    
+
+
     XCTAssert([bundle.preKeyPublic isEqualToData:bundle2.preKeyPublic]);
     XCTAssert([bundle.signedPreKeyPublic isEqualToData:bundle2.signedPreKeyPublic]);
     XCTAssert([bundle.signedPreKeySignature isEqualToData:bundle2.signedPreKeySignature]);
     XCTAssert([bundle.identityKey isEqualToData:bundle2.identityKey]);
-    
+
 }
 
 

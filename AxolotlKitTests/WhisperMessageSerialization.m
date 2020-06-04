@@ -2,8 +2,8 @@
 //  Copyright (c) 2018 Open Whisper Systems. All rights reserved.
 //
 
-#import <AxolotlKit/WhisperMessage.h>
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionAxolotlKit/WhisperMessage.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 #import <XCTest/XCTest.h>
 
 @interface WhisperMessageSerialization : XCTestCase
@@ -56,7 +56,7 @@
     XCTAssert([message.cipherText isEqualToData:deserializedMessage.cipherText]);
     XCTAssert(message.version == deserializedMessage.version);
     XCTAssert([message.serialized isEqualToData:deserializedMessage.serialized]);
-    
+
 }
 
 @end

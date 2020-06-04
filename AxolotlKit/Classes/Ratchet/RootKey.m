@@ -6,7 +6,7 @@
 #import "ChainKey.h"
 #import "RKCK.h"
 #import "TSDerivedSecrets.h"
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 
 static NSString* const kCoderData      = @"kCoderData";
 
@@ -22,11 +22,11 @@ static NSString* const kCoderData      = @"kCoderData";
 
 - (id)initWithCoder:(NSCoder *)aDecoder{
     self = [super init];
-    
+
     if (self) {
         _keyData = [aDecoder decodeObjectOfClass:[NSData class] forKey:kCoderData];
     }
-    
+
     return self;
 }
 
@@ -38,7 +38,7 @@ static NSString* const kCoderData      = @"kCoderData";
     if (self) {
         _keyData = data;
     }
-    
+
     return self;
 }
 
@@ -56,7 +56,7 @@ static NSString* const kCoderData      = @"kCoderData";
 
     RKCK *newRKCK = [[RKCK alloc] initWithRK:[[RootKey alloc]  initWithData:secrets.cipherKey]
                                           CK:[[ChainKey alloc] initWithData:secrets.macKey index:0]];
-    
+
     return newRKCK;
 }
 

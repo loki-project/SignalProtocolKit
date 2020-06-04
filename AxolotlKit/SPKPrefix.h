@@ -3,5 +3,5 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SignalCoreKit/NSObject+OWS.h>
-#import <SignalCoreKit/OWSAsserts.h>
+#import <SessionCoreKit/NSObject+OWS.h>
+#import <SessionCoreKit/OWSAsserts.h>

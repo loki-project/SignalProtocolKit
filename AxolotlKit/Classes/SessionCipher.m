@@ -16,10 +16,10 @@
 #import "SessionStore.h"
 #import "SignedPreKeyStore.h"
 #import "WhisperMessage.h"
-#import <Curve25519Kit/Curve25519.h>
-#import <Curve25519Kit/Ed25519.h>
-#import <HKDFKit/HKDFKit.h>
-#import <SignalCoreKit/SCKExceptionWrapper.h>
+#import <SessionCurve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Ed25519.h>
+#import <SessionHKDFKit/HKDFKit.h>
+#import <SessionCoreKit/SCKExceptionWrapper.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                            recipientId:recipientId
                                                               deviceId:deviceId];
     }
-    
+
     return self;
 }
 
@@ -220,7 +220,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (unsignedPreKeyId >= 0) {
         [self.prekeyStore removePreKey:unsignedPreKeyId];
     }
-    
+
     return plaintext;
 }
 
@@ -265,7 +265,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SessionState   *sessionState   = [sessionRecord sessionState];
     NSMutableArray *exceptions     = [NSMutableArray array];
-    
+
     @try {
         NSData *decryptedData = [self throws_decryptWithSessionState:sessionState
                                                       whisperMessage:whisperMessage
@@ -371,7 +371,7 @@ NS_ASSUME_NONNULL_BEGIN
         [AES_CBC throws_decryptCBCMode:whisperMessage.cipherText withKey:messageKeys.cipherKey withIV:messageKeys.iv];
 
     [sessionState clearUnacknowledgedPreKeyMessage];
-    
+
     return plaintext;
 }
 
@@ -412,7 +412,7 @@ NS_ASSUME_NONNULL_BEGIN
             ows_sub_overflow(sessionState.senderChainKey.index, 1, &previousCounter);
             [sessionState setPreviousCounter:MAX(previousCounter, 0)];
             [sessionState setSenderChain:ourNewEphemeral chainKey:senderChain.chainKey];
-            
+
             return receiverChain.chainKey;
         }
     }
@@ -467,7 +467,7 @@ NS_ASSUME_NONNULL_BEGIN
         [sessionState setMessageKeys:theirEphemeral messageKeys:messageKeys];
         chainKey = chainKey.nextChainKey;
     }
-    
+
     [sessionState setReceiverChainKey:theirEphemeral chainKey:[chainKey nextChainKey]];
     return [chainKey throws_messageKeys];
 }
@@ -492,7 +492,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!record) {
         @throw [NSException exceptionWithName:NoSessionException reason:@"Trying to get registration Id of a non-existing session." userInfo:nil];
     }
-    
+
     return record.sessionState.remoteRegistrationId;
 }
 
@@ -504,7 +504,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!record) {
         @throw [NSException exceptionWithName:NoSessionException reason:@"Trying to get the version of a non-existing session." userInfo:nil];
     }
-    
+
     return record.sessionState.version;
 }
 

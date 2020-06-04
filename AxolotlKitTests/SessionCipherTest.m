@@ -2,15 +2,15 @@
 //  Copyright (c) 2018 Open Whisper Systems. All rights reserved.
 //
 
-#import <AxolotlKit/AliceAxolotlParameters.h>
-#import <AxolotlKit/BobAxolotlParameters.h>
-#import <AxolotlKit/ChainKey.h>
-#import <AxolotlKit/RatchetingSession.h>
-#import <AxolotlKit/SPKMockProtocolStore.h>
-#import <AxolotlKit/SessionBuilder.h>
-#import <AxolotlKit/SessionCipher.h>
-#import <AxolotlKit/SessionState.h>
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionAxolotlKit/AliceAxolotlParameters.h>
+#import <SessionAxolotlKit/BobAxolotlParameters.h>
+#import <SessionAxolotlKit/ChainKey.h>
+#import <SessionAxolotlKit/RatchetingSession.h>
+#import <SessionAxolotlKit/SPKMockProtocolStore.h>
+#import <SessionAxolotlKit/SessionBuilder.h>
+#import <SessionAxolotlKit/SessionCipher.h>
+#import <SessionAxolotlKit/SessionState.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 #import <XCTest/XCTest.h>
 
 @interface SessionCipherTest : XCTestCase
@@ -94,13 +94,13 @@
 
     ECKeyPair *aliceIdentityKeyPair = [Curve25519 generateKeyPair];
     ECKeyPair *aliceBaseKey         = [Curve25519 generateKeyPair];
-    
+
     ECKeyPair *bobIdentityKeyPair   = [Curve25519 generateKeyPair];
     ECKeyPair *bobBaseKey           = [Curve25519 generateKeyPair];
     ECKeyPair *bobOneTimePK         = [Curve25519 generateKeyPair];
-    
+
     AliceAxolotlParameters *aliceParams = [[AliceAxolotlParameters alloc] initWithIdentityKey:aliceIdentityKeyPair theirIdentityKey:[bobIdentityKeyPair publicKey] ourBaseKey:aliceBaseKey theirSignedPreKey:[bobBaseKey publicKey] theirOneTimePreKey:[bobOneTimePK publicKey] theirRatchetKey:[bobBaseKey publicKey]];
-    
+
     BobAxolotlParameters   *bobParams = [[BobAxolotlParameters alloc] initWithMyIdentityKeyPair:bobIdentityKeyPair theirIdentityKey:[aliceIdentityKeyPair publicKey] ourSignedPrekey:bobBaseKey ourRatchetKey:bobBaseKey ourOneTimePrekey:bobOneTimePK theirBaseKey:[aliceBaseKey publicKey]];
 
     [RatchetingSession throws_initializeSession:bobSessionState sessionVersion:3 BobParameters:bobParams];

@@ -2,9 +2,9 @@
 //  Copyright (c) 2018 Open Whisper Systems. All rights reserved.
 //
 
-#import <AxolotlKit/AxolotlKit-Swift.h>
-#import <AxolotlKit/PreKeyWhisperMessage.h>
-#import <AxolotlKit/WhisperMessage.h>
+#import <SessionAxolotlKit/SessionAxolotlKit-Swift.h>
+#import <SessionAxolotlKit/PreKeyWhisperMessage.h>
+#import <SessionAxolotlKit/WhisperMessage.h>
 #import <XCTest/XCTest.h>
 
 @interface ProtobuffsTests : XCTestCase
@@ -36,7 +36,7 @@
     [builder setPreviousCounter:previousCounter];
     SPKProtoTSProtoWhisperMessage *message = [builder buildIgnoringErrors];
     NSData *serializedMessage = [message serializedDataIgnoringErrors];
-    
+
     NSError *error;
     SPKProtoTSProtoWhisperMessage *_Nullable deserialized =
         [SPKProtoTSProtoWhisperMessage parseData:serializedMessage error:&error];

@@ -6,8 +6,8 @@
 #import "AxolotlExceptions.h"
 #import "Constants.h"
 #import "SerializationUtilities.h"
-#import <AxolotlKit/AxolotlKit-Swift.h>
-#import <SignalCoreKit/SCKExceptionWrapper.h>
+#import <SessionAxolotlKit/SessionAxolotlKit-Swift.h>
+#import <SessionCoreKit/SCKExceptionWrapper.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

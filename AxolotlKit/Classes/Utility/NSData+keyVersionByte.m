@@ -4,7 +4,7 @@
 
 #import "NSData+keyVersionByte.h"
 #import "AxolotlExceptions.h"
-#import <SignalCoreKit/SCKExceptionWrapper.h>
+#import <SessionCoreKit/SCKExceptionWrapper.h>
 
 @implementation NSData (keyVersionByte)
 

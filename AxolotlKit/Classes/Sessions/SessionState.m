@@ -2,7 +2,7 @@
 //  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
-#import <Curve25519Kit/Curve25519.h>
+#import <SessionCurve25519Kit/Curve25519.h>
 #import "SessionState.h"
 #import "ReceivingChain.h"
 #import "SendingChain.h"
@@ -77,17 +77,17 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
 
 - (instancetype)init{
     self = [super init];
-    
+
     if (self) {
         self.receivingChains = [NSMutableArray array];
     }
-    
+
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder{
     self = [self init];
-    
+
     if (self) {
         self.version              = [aDecoder decodeIntForKey:kCoderVersion];
         self.aliceBaseKey         = [aDecoder decodeObjectOfClass:[NSData class] forKey:kCoderAliceBaseKey];
@@ -101,7 +101,7 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
         self.receivingChains      = [aDecoder decodeObjectOfClass:[NSArray class] forKey:kCoderReceiverChains];
         self.pendingPreKey        = [aDecoder decodeObjectOfClass:[PendingPreKey class] forKey:kCoderPendingPrekey];
     }
-    
+
     return self;
 }
 
@@ -139,7 +139,7 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
 - (ChainAndIndex *)receiverChain:(NSData *)senderEphemeral
 {
     int index = 0;
-    
+
     for (ReceivingChain *receiverChain in self.receivingChains) {
         NSData *chainSenderRatchetKey = receiverChain.senderRatchetKey;
 
@@ -151,7 +151,7 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
         }
         ows_add_overflow(index, 1, &index);
     }
-    
+
     return nil;
 }
 
@@ -161,7 +161,7 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
 
     ChainAndIndex *receiverChainAndIndex = [self receiverChain:senderEphemeral];
     ReceivingChain *receiverChain         = (ReceivingChain*)receiverChainAndIndex.chain;
-    
+
     if (receiverChain == nil) {
         return nil;
     } else{
@@ -176,10 +176,10 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
 
     ChainAndIndex *chainAndIndex = [self receiverChain:senderEphemeral];
     ReceivingChain *chain        = (ReceivingChain*)chainAndIndex.chain;
-    
+
     ReceivingChain *newChain     = chain;
     newChain.chainKey            = nextChainKey;
-    
+
     [self.receivingChains replaceObjectAtIndex:chainAndIndex.index withObject:newChain];
 }
 
@@ -187,9 +187,9 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
     OWSAssert(senderRatchetKey);
     OWSAssert(chainKey);
     ReceivingChain *receivingChain =  [[ReceivingChain alloc] initWithChainKey:chainKey senderRatchetKey:senderRatchetKey];
-    
+
     [self.receivingChains addObject:receivingChain];
-    
+
     if ([self.receivingChains count] > 5) {
         DDLogInfo(
             @"%@ Trimming excessive receivingChain count: %lu", self.tag, (unsigned long)self.receivingChains.count);
@@ -222,13 +222,13 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
     OWSAssert(senderRatchetKey);
     ChainAndIndex *chainAndIndex = [self receiverChain:senderRatchetKey];
     ReceivingChain *receivingChain = (ReceivingChain*)chainAndIndex.chain;
-    
+
     if (!receivingChain) {
         return NO;
     }
 
     NSArray *messageKeyArray = receivingChain.messageKeysList;
-    
+
     for (MessageKeys *keys in messageKeyArray) {
         if (keys.index == counter) {
             return YES;
@@ -241,24 +241,24 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
 - (MessageKeys*)removeMessageKeys:(NSData*)senderRatcherKey counter:(int)counter{
     ChainAndIndex *chainAndIndex = [self receiverChain:senderRatcherKey];
     ReceivingChain *receivingChain = (ReceivingChain*)chainAndIndex.chain;
-    
+
     if (!receivingChain) {
         return nil;
     }
-    
+
     NSMutableArray *messageList = receivingChain.messageKeysList;
-    
+
     MessageKeys *result;
-    
+
     for(MessageKeys *messageKeys in messageList){
         if (messageKeys.index == counter) {
             result = messageKeys;
             break;
         }
     }
-    
+
     [messageList removeObject:result];
-    
+
     return result;
 }
 
@@ -275,7 +275,7 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
     ChainAndIndex  *chainAndIndex = [self receiverChain:senderRatchetKey];
     ReceivingChain *chain         = (ReceivingChain*)chainAndIndex.chain;
     [chain.messageKeysList addObject:messageKeys];
-    
+
     [self setReceiverChain:chainAndIndex.index updatedChain:chain];
 }
 
@@ -283,7 +283,7 @@ static NSString* const kCoderPendingPrekey    = @"kCoderPendingPrekey";
     OWSAssert(baseKey);
 
     PendingPreKey *pendingPreKey = [[PendingPreKey alloc] initWithBaseKey:baseKey preKeyId:preKeyId signedPreKeyId:signedPreKeyId];
-    
+
     self.pendingPreKey = pendingPreKey;
 }
 
