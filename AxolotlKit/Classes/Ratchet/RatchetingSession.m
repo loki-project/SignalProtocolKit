@@ -33,7 +33,7 @@
     const char *HKDFDefaultSalt[4] = {0};
     NSData *salt                   = [NSData dataWithBytes:HKDFDefaultSalt length:sizeof(HKDFDefaultSalt)];
     NSData *info                   = [@"WhisperText" dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *derivedMaterial = [HKDFKit deriveKey:data info:info salt:salt outputSize:64];
+    NSData *derivedMaterial = [HKDFKit throws_deriveKey:data info:info salt:salt outputSize:64];
     OWSAssert(derivedMaterial.length == 64);
     _rootKey                       = [[RootKey alloc] initWithData:[derivedMaterial subdataWithRange:NSMakeRange(0, 32)]];
     _chainKey                      = [derivedMaterial subdataWithRange:NSMakeRange(32, 32)];

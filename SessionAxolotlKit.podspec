@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.requires_arc          = true
 
   s.dependency            'SessionCurve25519Kit', '~> 2.1.1'
-  s.dependency            'SessionHKDFKit', '~> 0.0.4'
+  s.dependency            'SessionHKDFKit', '~> 0.0.5'
   s.dependency            'CocoaLumberjack'
   s.dependency            'SwiftProtobuf', '~> 1.5.0'
   s.dependency            'SessionCoreKit', '~> 1.0.0'
