@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
                                             protocolContext:protocolContext];
         default:
             OWSFailDebug(@"Unexpected message type: %@", [whisperMessage class]);
-            break;
+            return [NSData new];
     }
 }
 
