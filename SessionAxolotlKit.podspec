@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "SessionAxolotlKit"
-  s.version               = "1.0.2"
+  s.version               = "1.0.3"
   s.summary               = "SessionAxolotlKit is a free implementation of the Axolotl protocol in Objective-C"
   s.homepage              = "https://github.com/loki-project/session-ios-protocol-kit"
   s.license               = "GPLv2"
