@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) uint32_t keyIndex;
 
 - (instancetype)init_throws_withIVAndCiphertext:(NSData *)ivAndCiphertext senderPublicKey:(NSString *)senderPublicKey keyIndex:(uint32_t)keyIndex;
+- (instancetype)init_throws_withData:(NSData *)serialized;
 
 @end
 

@@ -6,7 +6,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation ClosedGroupCiphertextMessage
 
-- (instancetype)init_throws_withIVAndCiphertext:(NSData *)ivAndCiphertext senderPublicKey:(NSString *)senderPublicKey keyIndex:(uint32_t)keyIndex {
+- (instancetype)init_throws_withIVAndCiphertext:(NSData *)ivAndCiphertext senderPublicKey:(NSString *)senderPublicKey keyIndex:(uint32_t)keyIndex
+{
     if (self = [super init]) {
         _ivAndCiphertext = ivAndCiphertext;
         _senderPublicKey = senderPublicKey;
@@ -25,10 +26,31 @@ NS_ASSUME_NONNULL_BEGIN
         
         _serialized = serialized;
     }
+
     return self;
 }
 
-- (CipherMessageType)cipherMessageType {
+- (instancetype)init_throws_withData:(NSData *)serialized
+{
+    if (self = [super init]) {
+        NSError *error;
+        SPKProtoClosedGroupCiphertextMessage *_Nullable ciphertextMessage = [SPKProtoTSProtoWhisperMessage parseData:serialized error:&error];
+        if (ciphertextMessage == nil || error != nil) {
+            OWSFailDebug(@"Couldn't parse proto due to error: %@.", error);
+            OWSRaiseException(InvalidMessageException, @"Couldn't parse proto.");
+        }
+
+        _serialized = serialized;
+        _ivAndCiphertext = ciphertextMessage.ciphertext;
+        _senderPublicKey = ciphertextMessage.senderPublicKey;
+        _keyIndex = ciphertextMessage.keyIndex;
+    }
+
+    return self;
+}
+
+- (CipherMessageType)cipherMessageType
+{
     return CipherMessageType_ClosedGroupCiphertext;
 }
 
