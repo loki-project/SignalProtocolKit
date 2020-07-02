@@ -1,4 +1,6 @@
 #import "ClosedGroupCiphertextMessage.h"
+#import "AxolotlExceptions.h"
+#import <SessionAxolotlKit/SessionAxolotlKit-Swift.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -10,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
         _senderPublicKey = senderPublicKey;
         _keyIndex = keyIndex;
 
-        SPKProtoTSProtoClosedGroupCiphertextMessageBuilder *builder = [SPKProtoTSProtoClosedGroupCiphertextMessage builderWithCiphertext:ivAndCiphertext
-                                                                                                                         senderPublicKey:senderPublicKey
-                                                                                                                                keyIndex:keyIndex];
+        SPKProtoClosedGroupCiphertextMessageBuilder *builder = [SPKProtoClosedGroupCiphertextMessage builderWithCiphertext:ivAndCiphertext
+                                                                                                           senderPublicKey:senderPublicKey
+                                                                                                                  keyIndex:keyIndex];
 
         NSError *error;
         NSData *_Nullable serialized = [builder buildSerializedDataAndReturnError:&error];
