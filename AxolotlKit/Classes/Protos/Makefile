@@ -1,6 +1,6 @@
 PROTOC=protoc \
 		--proto_path='./'
-WRAPPER_SCRIPT=../../../../Signal-iOS/Scripts/ProtoWrappers.py \
+WRAPPER_SCRIPT=../../../../session-ios/Scripts/ProtoWrappers.py \
 		--proto-dir='./' --verbose --add-log-tag
 
 all: webrtc_data_proto

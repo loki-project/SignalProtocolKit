@@ -48,3 +48,12 @@ message TSProtoSenderKeyDistributionMessage {
   optional bytes  chainKey   = 3;
   optional bytes  signingKey = 4;
 }
+
+message ClosedGroupCiphertextMessage {
+  // @required
+  optional bytes  ciphertext      = 1;
+  // @required
+  optional string senderPublicKey = 2;
+  // @required
+  optional uint32 keyIndex        = 3;
+}
